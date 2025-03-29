@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Login from './components/Login';
@@ -25,7 +24,7 @@ const RedirectHandler = ({ children }) => {
 
 function App() {
   return (
-    <Router basename="/employwisee"> {/* Match your base path */}
+    <Router basename="/employwisee"> {/* Matches base path */}
       <RedirectHandler>
         <div className="min-h-screen bg-gray-100">
           <Routes>
