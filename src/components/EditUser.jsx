@@ -23,6 +23,19 @@ function EditUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Custom validation
+    if (user.first_name.length < 2) {
+      setError('First name must be at least 2 characters long');
+      return;
+    }
+    if (user.last_name.length < 2) {
+      setError('Last name must be at least 2 characters long');
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(user.email)) {
+      setError('Please enter a valid email address (e.g., user@domain.com)');
+      return;
+    }
     try {
       await axios.put(`https://reqres.in/api/users/${id}`, user);
       navigate('/users');
@@ -35,7 +48,7 @@ function EditUser() {
     <div className="flex items-center justify-center h-screen">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-96">
         <h2 className="text-2xl mb-4 text-center">Edit User</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
         <input
           type="text"
           value={user.first_name}

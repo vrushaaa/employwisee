@@ -11,6 +11,15 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Custom validation
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError('Please enter a valid email address (e.g., user@domain.com)');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
     try {
       const response = await axios.post('https://reqres.in/api/login', { email, password });
       localStorage.setItem('token', response.data.token);
@@ -21,10 +30,10 @@ function Login() {
   };
 
   return (
-    <div className shadow-md="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-96">
         <h2 className="text-2xl mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
         <input
           type="email"
           value={email}

@@ -9,12 +9,14 @@ function UserList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
   }, [page]);
 
+  // Fetch users from Reqres API
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
@@ -30,6 +32,11 @@ function UserList() {
     navigate('/');
   };
 
+  // Filter users based on search input
+  const filteredUsers = users.filter((user) =>
+    `${user.first_name} ${user.last_name}`.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
@@ -38,9 +45,21 @@ function UserList() {
           Logout
         </button>
       </div>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <div className="mb-4">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search users by name..."
+          className="w-full p-2 border rounded"
+        />
+      </div>
+      {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
+      {filteredUsers.length === 0 && !error && (
+        <p className="text-gray-500 mb-4">No users found.</p>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <UserCard key={user.id} user={user} setUsers={setUsers} />
         ))}
       </div>
