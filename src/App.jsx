@@ -25,7 +25,7 @@ const RedirectHandler = ({ children }) => {
 
 function App() {
   return (
-    <Router basename="/employwise-app"> {/* Match your base path */}
+    <Router basename="/employwisee"> {/* Match your base path */}
       <RedirectHandler>
         <div className="min-h-screen bg-gray-100">
           <Routes>
